@@ -1,0 +1,86 @@
+/* Contenedor principal del formulario */
+.atencion-form {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #f8c0c8;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacio uniforme entre todos los campos */
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.atencion-form h3 {
+  margin: 0 0 10px 0;
+  color: #4a4a4a;
+  text-align: center;
+}
+
+/* Estilo común para todos los inputs y selects */
+.atencion-form select,
+.atencion-form input,
+.atencion-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-sizing: border-box; /* Importante para que el padding no desborde */
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.atencion-form select:focus,
+.atencion-form input:focus,
+.atencion-form textarea:focus {
+  border-color: #f396a3;
+  outline: none;
+}
+
+.atencion-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Área de resultados */
+.resumen-calculo {
+  background: #fff5f6;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px dashed #f396a3;
+  color: #4a4a4a;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.resumen-calculo p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Botón principal */
+.atencion-form button {
+  background-color: #f396a3;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.atencion-form button:hover {
+  background-color: #f07b8b;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 480px) {
+  .atencion-form {
+    padding: 15px;
+  }
+}

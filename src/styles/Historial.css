@@ -1,0 +1,50 @@
+.historial-container {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.historial-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historial-table th, .historial-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.historial-table th { color: #f396a3; }
+
+/* Estilo para el botón de abrir detalles */
+.btn-detalle {
+  background: #fdf0f2;
+  color: #f396a3;
+  border: 1px solid #f396a3;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Fila de detalles expandida */
+.fila-notas {
+  background-color: #fafafa;
+}
+
+.notas-container {
+  padding: 15px;
+  border-left: 4px solid #f396a3;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.acciones-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}

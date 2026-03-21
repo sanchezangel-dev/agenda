@@ -1,0 +1,28 @@
+.form-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.paciente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.paciente-form input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-save { background: #f396a3; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
+.btn-cancel { background: #eee; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }

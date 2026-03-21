@@ -1,0 +1,22 @@
+:root {
+  --primary-pink: #e91e63;
+  --dark-pink: #c2185b;
+  --bg-color: #fff0f5;
+  --text-color: #5d4037;
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  color: var(--primary-pink);
+  text-align: center;
+  margin: 20px 0;
+}

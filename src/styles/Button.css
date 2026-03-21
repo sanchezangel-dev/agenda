@@ -1,0 +1,72 @@
+/* Base del botón */
+.btn-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.btn-custom:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* VARIANTES DE COLOR */
+
+/* 1. Verde (Principal / Pacientes) */
+.btn-custom.primary {
+  background-color: #40916c;
+  color: white;
+}
+.btn-custom.primary:hover {
+  background-color: #2d6a4f;
+  transform: translateY(-1px);
+}
+
+/* 2. Rosa (Secundario / Historial) */
+.btn-custom.secondary {
+  background-color: #f06292;
+  color: white;
+}
+.btn-custom.secondary:hover {
+  background-color: #d81b60;
+  transform: translateY(-1px);
+}
+
+/* 3. Rojo (Peligro / Eliminar) */
+.btn-custom.danger {
+  background-color: #ff5252;
+  color: white;
+}
+.btn-custom.danger:hover {
+  background-color: #e53935;
+}
+
+/* 4. Gris (Cancelar / Único para todos) */
+.btn-custom.ghost {
+  background-color: #f1f3f5;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+.btn-custom.ghost:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+/* TAMAÑOS */
+.btn-custom.small { padding: 4px 10px; font-size: 0.8rem; }
+.btn-custom.medium { padding: 10px 20px; font-size: 0.95rem; }
+.btn-custom.large { padding: 14px 28px; font-size: 1.1rem; }
+
+/* Responsive: en móviles los botones grandes ocupan todo el ancho */
+@media (max-width: 600px) {
+  .btn-custom.large {
+    width: 100%;
+  }
+}

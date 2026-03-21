@@ -1,0 +1,160 @@
+/* Contenedor principal del Historial */
+.historial-container {
+    padding: 20px;
+    background-color: #fffafb; /* Fondo con un toque rosado muy leve */
+    border-radius: 12px;
+    min-height: 80vh;
+}
+
+.historial-container h3 {
+    color: #d81b60; /* Rosa fucsia oscuro */
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    border-left: 5px solid #f06292;
+    padding-left: 15px;
+}
+
+/* Tabla de Historial */
+.historial-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.historial-table th {
+    background-color: #fce4ec; /* Rosa pastel claro */
+    color: #880e4f;
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.historial-table td {
+    padding: 14px 15px;
+    background-color: white;
+    border-top: 1px solid #f8bbd0;
+    border-bottom: 1px solid #f8bbd0;
+    color: #4a4a4a;
+}
+
+/* Redondeado de filas */
+.historial-table tr td:first-child { 
+    border-left: 1px solid #f8bbd0; 
+    border-top-left-radius: 8px; 
+    border-bottom-left-radius: 8px; 
+}
+.historial-table tr td:last-child { 
+    border-right: 1px solid #f8bbd0; 
+    border-top-right-radius: 8px; 
+    border-bottom-right-radius: 8px; 
+}
+
+/* Botón de Detalles */
+.btn-detalle {
+    background-color: #f06292;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.btn-detalle:hover {
+    background-color: #d81b60;
+}
+
+/* Fila de Notas Expandida */
+.fila-notas td {
+    background-color: #fff5f8 !important;
+    padding: 0;
+}
+
+.notas-container {
+    padding: 20px;
+    border: 1px dashed #f48fb1;
+    border-radius: 0 0 8px 8px;
+    margin: 0 10px 10px 10px;
+    background-color: #ffffff;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.notas-container p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.notas-container strong {
+    color: #ad1457;
+}
+
+/* Contenedor de Acciones (Botones Editar/Eliminar) */
+.acciones-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    justify-content: flex-end;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Resalte de Honorarios */
+.historial-table td strong {
+    color: #c2185b;
+    font-size: 1.05rem;
+}
+
+/* ... (mantené los estilos anteriores de escritorio) ... */
+
+/* Responsive para Celulares */
+@media (max-width: 768px) {
+    .tabla-pacientes thead {
+        display: none; /* Escondemos el header en móvil */
+    }
+
+    .tabla-pacientes, .tabla-pacientes tbody, .tabla-pacientes tr, .tabla-pacientes td {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-pacientes tr {
+        margin-bottom: 15px;
+        border: 1px solid #d8e2dc;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .tabla-pacientes td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #f0f4f1;
+    }
+
+    /* Agregamos etiquetas antes del contenido */
+    .tabla-pacientes td::before {
+        content: attr(data-label); /* Necesitás agregar data-label en el JSX */
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        text-align: left;
+        font-weight: 700;
+        color: #1b4332;
+    }
+
+    .tabla-pacientes td:last-child {
+        text-align: center;
+        padding-left: 15px;
+        background-color: #f1fcf3;
+    }
+}

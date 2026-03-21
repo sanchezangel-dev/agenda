@@ -1,0 +1,14 @@
+:root {
+  --primary-pink: #f8c0c8;
+  --secondary-pink: #f396a3;
+  --bg-cream: #faf9f6;
+  --text-dark: #4a4a4a;
+  --white: #ffffff;
+}
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--text-dark);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
