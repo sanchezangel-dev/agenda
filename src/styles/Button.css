@@ -70,3 +70,19 @@
     width: 100%;
   }
 }
+
+/* Variante para Pagos (Lila) */
+.btn-custom.payment {
+  background-color: #9d70ff; /* Un lila vibrante */
+  color: white;
+  border: none;
+}
+
+.btn-custom.payment:hover:not(:disabled) {
+  background-color: #8355e6; /* Un poco más oscuro al pasar el mouse */
+  cursor: pointer;
+}
+
+.btn-custom.payment:active:not(:disabled) {
+  background-color: #6b44c0;
+}

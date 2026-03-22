@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Button.css';
 
 /**
- * @param {string} variant - 'primary' (Verde), 'secondary' (Rosa), 'danger' (Rojo/Eliminar), 'ghost' (Cancelar/Gris)
+ * @param {string} variant - 'primary' (Verde), 'secondary' (Rosa), 'danger' (Rojo/Eliminar), 'ghost' (Cancelar/Gris), 'payment' (Lila)
  * @param {string} size - 'small', 'medium', 'large'
  */
 const Button = ({ 
@@ -27,3 +27,4 @@ const Button = ({
 };
 
 export default Button;
+

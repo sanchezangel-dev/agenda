@@ -1,0 +1,205 @@
+/* --- VARIABLES Y GENERALES --- */
+:root {
+  --lila-principal: #8b5cf6;
+  --lila-oscuro: #4a3485;
+  --lila-claro: #f3efff;
+  --lila-borde: #9d70ff;
+  --gris-suave: #f8f9fa;
+  --texto-oscuro: #333;
+}
+
+.pagos-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* --- HEADER / RESUMEN --- */
+.resumen-pago-card {
+  background-color: var(--lila-claro);
+  border-left: 6px solid var(--lila-borde);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(157, 112, 255, 0.1);
+  margin-bottom: 2.5rem;
+}
+
+.resumen-info h2 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: var(--lila-oscuro);
+  font-weight: 800;
+}
+
+.resumen-label {
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #7a5ecf;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* --- BADGES Y ESTADOS --- */
+.pago-status-badge, .badge-pagado {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-pendiente { background-color: #ffe5e5; color: #d93025; }
+.status-aldia, .badge-pagado { background-color: #e6fffa; color: #00875a; }
+
+/* --- SECCIÓN DE HISTORIAL Y TABLA --- */
+.historial-seccion {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.tabla-pagos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.tabla-pagos th, .tabla-pagos td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tabla-pagos th {
+  background-color: var(--gris-suave);
+  color: #666;
+  border-bottom: 2px solid #eee;
+}
+
+/* --- ACCIONES E ICONOS --- */
+.acciones-celda-iconos {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-accion {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 8px;
+}
+
+.btn-accion.edit { color: var(--lila-principal); }
+.btn-accion.delete { color: #a78bfa; }
+.btn-accion:hover { transform: scale(1.15); }
+
+/* --- MODALES (Unificados) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-field {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.modal-field label { font-size: 0.85rem; font-weight: 600; color: #555; }
+
+.modal-field input, .modal-field select, .modal-field textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* --- BOTONES --- */
+.btn-guardar {
+  background-color: var(--lila-principal);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-guardar:hover { opacity: 0.9; }
+
+.btn-cancelar {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .pagos-container { padding: 1rem; }
+  
+  .resumen-pago-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .resumen-pago-card button { width: 100%; justify-content: center; }
+  
+  .resumen-info h2 { font-size: 2rem; }
+}
+
+@media (max-width: 600px) {
+  /* Ocultamos Método de pago para ganar espacio */
+  .tabla-pagos th:nth-child(4), 
+  .tabla-pagos td:nth-child(4) { display: none; }
+  
+  .btn-accion { font-size: 1.4rem; padding: 12px; }
+  
+  .acciones-celda-iconos { gap: 25px; }
+}

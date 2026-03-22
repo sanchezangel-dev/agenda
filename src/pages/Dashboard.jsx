@@ -69,6 +69,13 @@ export default function Dashboard() {
                         Pacientes
                     </Button>
 
+                    <Button
+                        variant="payment"
+                        onClick={() => navigate('/Pagos')}
+                    >
+                        Pagos
+                    </Button>
+
                 </div>
 
                 <div className="resumen-financiero-container">
