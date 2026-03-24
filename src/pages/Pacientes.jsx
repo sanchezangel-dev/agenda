@@ -47,7 +47,7 @@ export default function Pacientes() {
     return (
         <div className="dashboard-container">
             <header className="dashboard-header">
-                <h1>Pacientes <i class="fa-solid fa-address-book"></i></h1>
+                <h1>Pacientes <i className="fa-solid fa-address-book"></i></h1>
                 <Button variant="ghost" onClick={() => navigate('/')}>Volver</Button>
             </header>
 

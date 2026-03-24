@@ -114,7 +114,7 @@ const Pagos = () => {
     return (
         <div className="pagos-container"> 
             <header className="dashboard-header flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Liquidaciones al Centro <i class="fa-solid fa-wallet"></i></h1>
+                <h1 className="text-2xl font-bold">Liquidaciones al Centro <i className="fa-solid fa-wallet"></i></h1>
                 <Button variant="ghost" onClick={() => navigate('/')}>Volver</Button>
             </header>
 
