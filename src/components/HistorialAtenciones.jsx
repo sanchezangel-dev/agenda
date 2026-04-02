@@ -34,6 +34,12 @@ export default function HistorialAtenciones() {
         }
     };
 
+    const formatearFecha = (fechaStr) => {
+    if (!fechaStr) return '';
+    const [year, month, day] = fechaStr.split('-');
+    return `${day}/${month}/${year}`;
+    };
+
     return (
         <div className="historial-container">
             <h3>Historial de Atenciones</h3>
@@ -51,11 +57,11 @@ export default function HistorialAtenciones() {
                     {atenciones.map((a) => (
                         <React.Fragment key={a.id}>
                             <tr>
-                                <td>{a.fecha}</td>
-                                <td>{a.pacientes?.nombre}</td>
-                                <td>${a.montoTotal}</td>
-                                <td><strong>${a.montoPaciente}</strong></td>
-                                <td>
+                                <td data-label="Fecha">{formatearFecha(a.fecha)}</td>
+                                <td data-label="Paciente">{a.pacientes?.nombre}</td>
+                                <td data-label="Total">${a.montoTotal}</td>
+                                <td data-label="Honorarios"><strong>${a.montoPaciente}</strong></td>
+                                <td data-label="Acciones">
                                     <button className="btn-detalle" onClick={() => toggleFila(a.id)}>
                                         {filaExpandida === a.id ? 'Cerrar' : 'Detalles'}
                                     </button>

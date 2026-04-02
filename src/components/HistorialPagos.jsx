@@ -133,12 +133,12 @@ const HistorialPagos = () => {
                         ) : (
                             pagos.map((pago) => (
                                 <tr key={pago.id}>
-                                    <td>{new Date(pago.fecha).toLocaleDateString('es-AR')}</td>
-                                    <td className="capitalize">{pago.periodo}</td>
-                                    <td className="font-bold text-green-700">
+                                    <td data-label="Fecha">{new Date(pago.fecha).toLocaleDateString('es-AR')}</td>
+                                    <td data-label="Periodo" className="capitalize">{pago.periodo}</td>
+                                    <td data-label="Monto" className="font-bold text-green-700">
                                         ${Number(pago.monto).toLocaleString('es-AR')}
                                     </td>
-                                    <td>{pago.metodopago}</td>
+                                    <td data-label="Método">{pago.metodopago}</td>
                                     <td className="acciones-celda-iconos">
                                         <button 
                                             className="btn-accion edit" 

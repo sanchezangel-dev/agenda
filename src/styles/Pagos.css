@@ -179,27 +179,94 @@
   font-weight: 600;
 }
 
-/* --- RESPONSIVE --- */
+/* =============================================
+   ESTILOS RESPONSIVE PARA PAGOS (MODO TARJETA)
+   ============================================= */
+
 @media (max-width: 768px) {
-  .pagos-container { padding: 1rem; }
-  
-  .resumen-pago-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
+    .pagos-container { padding: 10px; }
 
-  .resumen-pago-card button { width: 100%; justify-content: center; }
-  
-  .resumen-info h2 { font-size: 2rem; }
-}
+    .resumen-pago-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+        gap: 15px;
+    }
 
-@media (max-width: 600px) {
-  /* Ocultamos Método de pago para ganar espacio */
-  .tabla-pagos th:nth-child(4), 
-  .tabla-pagos td:nth-child(4) { display: none; }
-  
-  .btn-accion { font-size: 1.4rem; padding: 12px; }
-  
-  .acciones-celda-iconos { gap: 25px; }
+    .resumen-info h2 { font-size: 2.2rem; margin: 10px 0; }
+    .resumen-pago-card button { width: 100%; padding: 15px; }
+
+    /* Transformación de Tabla a Tarjetas */
+    .tabla-pagos thead { display: none; }
+
+    .tabla-pagos, 
+    .tabla-pagos tbody, 
+    .tabla-pagos tr, 
+    .tabla-pagos td {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-pagos tr {
+        margin-bottom: 20px;
+        border: 1px solid #e0d7f7;
+        border-radius: 12px;
+        background-color: white;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    /* Estilo de los datos alineados a la izquierda */
+    .tabla-pagos td {
+        display: flex;
+        justify-content: flex-start; /* Alineado al inicio */
+        align-items: center;
+        padding: 12px 15px;
+        border: none;
+        border-bottom: 1px solid #f3efff;
+        text-align: left;
+        gap: 15px; /* Espacio entre título y dato */
+    }
+
+    /* Títulos lila con ancho fijo para alinear columnas */
+    .tabla-pagos td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--lila-principal);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        width: 90px; /* Ancho fijo para alinear el inicio de los datos */
+        flex-shrink: 0;
+    }
+
+    /* Sección de Acciones (Iconos abajo y centrados) */
+    .tabla-pagos td:last-child {
+        display: flex;
+        justify-content: center;
+        background-color: #f7f3ff;
+        border-top: 1px dashed #e0d7f7;
+        border-bottom: none;
+        padding: 15px 0;
+    }
+
+    .tabla-pagos td:last-child::before {
+        content: none;
+    }
+
+    .acciones-celda-iconos {
+        gap: 35px;
+    }
+
+    .btn-accion i {
+        font-size: 1.4rem;
+    }
+
+    /* Ajustes Modales */
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    .modal-actions { flex-direction: column; gap: 10px; }
+    .modal-actions button { width: 100%; }
 }

@@ -74,10 +74,10 @@ export default function Pacientes() {
                         {listaPacientes.map((p) => (
                             <React.Fragment key={p.id}>
                                 <tr>
-                                    <td>{p.nombre}</td>
-                                    <td>{calcularEdad(p.nacimiento)} años</td>
-                                    <td>{p.celular}</td>
-                                    <td>
+                                    <td data-label="Nombre">{p.nombre}</td>
+                                    <td data-label="Edad">{calcularEdad(p.nacimiento)} años</td>
+                                    <td data-label="Celular">{p.celular}</td>
+                                    <td data-label="Acciones">
                                                 <Button
                                                     variant="primary"
                                                     onClick={() => setFilaAbierta(filaAbierta === p.id ? null : p.id)}
@@ -89,31 +89,30 @@ export default function Pacientes() {
                                 </tr>
                                 {/* Fila extra que aparece al cliquear "Ver más" */}
                                 {filaAbierta === p.id && (
-                                    <tr className="fila-acciones-extra">
-                                        <td colSpan="4">
-                                            <div style={{ display: 'flex', gap: '20px', padding: '10px', backgroundColor: '#f9f9f9', justifyContent: 'center' }}>
-                                                <span><strong>DNI:</strong> {p.dni}</span>
-                                                <span><strong>Emergencia:</strong> {p.emergencia}</span>
-
-                                                <Button
-                                                    variant="primary"
-                                                    onClick={() => navigate(`/editarpaciente/${p.id}`)}
-                                                >
-                                                    Editar
-                                                </Button>
-
-                                                <Button
-                                                    variant="danger"
-                                                    onClick={() => eliminarPaciente(p.id)}
-                                                >
-                                                    Eliminar
-                                                </Button>
-
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
+    <tr className="fila-acciones-extra">
+        <td colSpan="4">
+            <div className="extra-info-container">
+                <span><strong>DNI:</strong> {p.dni}</span>
+                <span><strong>Emergencia:</strong> {p.emergencia}</span>
+                
+                <div className="extra-buttons">
+                    <Button
+                        variant="primary"
+                        onClick={() => navigate(`/editarpaciente/${p.id}`)}
+                    >
+                        Editar
+                    </Button>
+                    <Button
+                        variant="danger"
+                        onClick={() => eliminarPaciente(p.id)}
+                    >
+                        Eliminar
+                    </Button>
+                </div>
+            </div>
+        </td>
+    </tr>
+)}
                             </React.Fragment>
                         ))}
                     </tbody>
