@@ -10,7 +10,6 @@ const Pagos = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Estados para el Modal de Liquidación
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mesAAsignar, setMesAAsignar] = useState(null); 
     const [metodoPago, setMetodoPago] = useState('Transferencia');
@@ -23,6 +22,7 @@ const Pagos = () => {
     const cargarLiquidaciones = async () => {
         try {
             setLoading(true);
+            // Traemos todo lo NO liquidado
             const { data, error } = await supabase
                 .from('atenciones')
                 .select('id, montoCentro, fecha')
@@ -33,8 +33,15 @@ const Pagos = () => {
 
             if (data) {
                 const agrupado = data.reduce((acc, atencion) => {
-                    const fecha = new Date(atencion.fecha);
-                    const mesAnio = fecha.toLocaleString('es-AR', { month: 'long', year: 'numeric' });
+                    // Extraemos Año y Mes directamente del string "YYYY-MM-DD"
+                    // Esto evita que la zona horaria nos cambie el mes.
+                    const partes = atencion.fecha.split('-');
+                    const anio = partes[0];
+                    const mes = partes[1];
+                    
+                    // Creamos una fecha local solo para obtener el nombre del mes
+                    const fechaObj = new Date(anio, parseInt(mes) - 1, 1);
+                    const mesAnio = fechaObj.toLocaleString('es-AR', { month: 'long', year: 'numeric' });
                     
                     if (!acc[mesAnio]) {
                         acc[mesAnio] = { 
@@ -45,17 +52,20 @@ const Pagos = () => {
                         };
                     }
                     
-                    acc[mesAnio].total += atencion.montoCentro || 0;
+                    // Sumamos asegurando que sea número
+                    acc[mesAnio].total += Number(atencion.montoCentro) || 0;
                     acc[mesAnio].ids.push(atencion.id);
                     
+                    // Marcamos si es el mes que transcurre hoy
                     const hoy = new Date();
-                    if (fecha.getMonth() === hoy.getMonth() && fecha.getFullYear() === hoy.getFullYear()) {
+                    if (parseInt(mes) === (hoy.getMonth() + 1) && parseInt(anio) === hoy.getFullYear()) {
                         acc[mesAnio].esMesActual = true;
                     }
                     
                     return acc;
                 }, {});
 
+                // Convertimos el objeto en array para el map
                 setMesesPendientes(Object.values(agrupado));
             }
         } catch (error) {
@@ -70,12 +80,10 @@ const Pagos = () => {
         setIsModalOpen(true);
     };
 
-    // --- ESTA ES LA FUNCIÓN QUE CORREGIMOS ---
     const confirmarLiquidacionFinal = async () => {
         try {
             const { ids, monto, periodo } = mesAAsignar;
 
-            // 1. Insertar registro en tabla de pagos (Usando 'metodopago' en minúscula)
             const { error: errorPago } = await supabase
                 .from('pagos')
                 .insert([{
@@ -88,7 +96,6 @@ const Pagos = () => {
 
             if (errorPago) throw errorPago;
 
-            // 2. Actualizar atenciones a liquidado: true
             const { error: errorUpdate } = await supabase
                 .from('atenciones')
                 .update({ liquidado: true })
@@ -101,7 +108,6 @@ const Pagos = () => {
             setNotas(''); 
             cargarLiquidaciones(); 
             
-            // Forzamos un refresco suave para que el Historial se entere del nuevo pago
             if (window.fetchHistorial) window.fetchHistorial();
 
         } catch (error) {
@@ -109,7 +115,6 @@ const Pagos = () => {
             console.error(error);
         }
     };
-    // ------------------------------------------
 
     return (
         <div className="pagos-container"> 

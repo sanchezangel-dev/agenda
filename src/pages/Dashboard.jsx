@@ -21,24 +21,28 @@ export default function Dashboard() {
     const fetchResumenMensual = async () => {
         const ahora = new Date();
         const anio = ahora.getFullYear();
-        const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+        const mes = ahora.getMonth(); // 0 para Enero, 3 para Abril
 
-        const inicioMes = `${anio}-${mes}-01`;
-        // Usamos un fin de mes genérico o el último día real
-        const finMes = `${anio}-${mes}-31`;
+        // Lógica robusta de fechas:
+        // Inicio: Día 1 de este mes a las 00:00:00
+        const inicioMes = new Date(anio, mes, 1).toISOString();
+        // Fin: Día 1 del mes SIGUIENTE a las 00:00:00
+        const finMes = new Date(anio, mes + 1, 1).toISOString();
 
         try {
             const { data, error } = await supabase
                 .from('atenciones')
                 .select('montoPaciente, montoCentro')
                 .gte('fecha', inicioMes)
-                .lte('fecha', finMes);
+                .lt('fecha', finMes); // .lt es "menor que", así no entra el día 1 del mes que viene
 
             if (error) throw error;
 
             if (data) {
-                const totalProfesional = data.reduce((acc, curr) => acc + (curr.montoPaciente || 0), 0);
-                const totalCentro = data.reduce((acc, curr) => acc + (curr.montoCentro || 0), 0);
+                // Aseguramos que sume como números (Number) para evitar errores de la DB
+                const totalProfesional = data.reduce((acc, curr) => acc + (Number(curr.montoPaciente) || 0), 0);
+                const totalCentro = data.reduce((acc, curr) => acc + (Number(curr.montoCentro) || 0), 0);
+                
                 setTotales({ profesional: totalProfesional, centro: totalCentro });
             }
         } catch (err) {
@@ -61,11 +65,11 @@ export default function Dashboard() {
                 <div className="resumen-financiero-container">
                     <div className="stat-card ganancia">
                         <p>Tus Honorarios ({obtenerMesActual()})</p>
-                        <span>${totales.profesional.toLocaleString()}</span>
+                        <span>${totales.profesional.toLocaleString('es-AR')}</span>
                     </div>
                     <div className="stat-card deuda">
                         <p>Saldo a pagar al Centro ({obtenerMesActual()})</p>
-                        <span>${totales.centro.toLocaleString()}</span>
+                        <span>${totales.centro.toLocaleString('es-AR')}</span>
                     </div>
                 </div>
 
