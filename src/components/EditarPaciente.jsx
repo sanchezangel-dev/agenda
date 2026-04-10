@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import '../styles/EditarPaciente.css'; 
 
 export default function EditarPaciente() {
-    const { id } = useParams(); // Agarramos el ID de la URL
+    const { id } = useParams(); 
     const navigate = useNavigate();
     
     const [paciente, setPaciente] = useState({
@@ -13,10 +13,10 @@ export default function EditarPaciente() {
         dni: '',
         nacimiento: '',
         celular: '',
-        emergencia: ''
+        emergencia: '',
+        es_becado: false // Agregamos el campo al estado inicial
     });
 
-    // 1. Cargar los datos actuales del paciente al montar el componente
     useEffect(() => {
         const fetchPaciente = async () => {
             const { data, error } = await supabase
@@ -37,15 +37,16 @@ export default function EditarPaciente() {
         fetchPaciente();
     }, [id, navigate]);
 
-    // 2. Manejar los cambios en los inputs
     const handleChange = (e) => {
+        // Manejamos el checkbox de forma distinta a los inputs de texto
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        
         setPaciente({
             ...paciente,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         });
     };
 
-    // 3. Guardar los cambios en Supabase
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { error } = await supabase
@@ -55,14 +56,15 @@ export default function EditarPaciente() {
                 dni: paciente.dni,
                 nacimiento: paciente.nacimiento,
                 celular: paciente.celular,
-                emergencia: paciente.emergencia
+                emergencia: paciente.emergencia,
+                es_becado: paciente.es_becado // Enviamos el nuevo estado a Supabase
             })
             .eq('id', id);
 
         if (error) {
             alert("Error al actualizar: " + error.message);
         } else {
-            alert("Paciente actualizado con éxito");
+            alert("✅ Paciente actualizado con éxito");
             navigate('/Pacientes');
         }
     };
@@ -124,6 +126,19 @@ export default function EditarPaciente() {
                             onChange={handleChange} 
                         />
                     </div>
+                </div>
+
+                {/* Nuevo campo: Checkbox de Becado */}
+                <div className="input-group checkbox-container-edit">
+                    <label className="checkbox-label">
+                        <input 
+                            type="checkbox" 
+                            name="es_becado"
+                            checked={paciente.es_becado} 
+                            onChange={handleChange} 
+                        />
+                        <span>Paciente Becado (0% al Centro)</span>
+                    </label>
                 </div>
 
                 <div className="form-actions">

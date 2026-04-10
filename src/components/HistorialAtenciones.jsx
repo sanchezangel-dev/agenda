@@ -16,7 +16,7 @@ export default function HistorialAtenciones() {
     const fetchAtenciones = async () => {
         const { data } = await supabase
             .from('atenciones')
-            .select('id, fecha, montoTotal, montoPaciente, metodoPago, notas, pacientes(nombre)')
+            .select('id, fecha, montoTotal, montoPaciente, montoCentro, metodoPago, notas, es_becado, pacientes(nombre)') // Traemos es_becado y montoCentro
             .order('fecha', { ascending: false });
 
         setAtenciones(data || []);
@@ -35,9 +35,9 @@ export default function HistorialAtenciones() {
     };
 
     const formatearFecha = (fechaStr) => {
-    if (!fechaStr) return '';
-    const [year, month, day] = fechaStr.split('-');
-    return `${day}/${month}/${year}`;
+        if (!fechaStr) return '';
+        const [year, month, day] = fechaStr.split('-');
+        return `${day}/${month}/${year}`;
     };
 
     return (
@@ -56,9 +56,13 @@ export default function HistorialAtenciones() {
                 <tbody>
                     {atenciones.map((a) => (
                         <React.Fragment key={a.id}>
-                            <tr>
+                            {/* Aplicamos la clase condicional a la fila */}
+                            <tr className={a.es_becado ? "fila-becada" : ""}>
                                 <td data-label="Fecha">{formatearFecha(a.fecha)}</td>
-                                <td data-label="Paciente">{a.pacientes?.nombre}</td>
+                                <td data-label="Paciente">
+                                    {a.pacientes?.nombre} 
+                                    {a.es_becado && <span className="badge-beca-tabla">Becado</span>}
+                                </td>
                                 <td data-label="Total">${a.montoTotal}</td>
                                 <td data-label="Honorarios"><strong>${a.montoPaciente}</strong></td>
                                 <td data-label="Acciones">
@@ -71,8 +75,11 @@ export default function HistorialAtenciones() {
                                 <tr className="fila-notas">
                                     <td colSpan="5">
                                         <div className="notas-container">
-                                            <p><strong>Método:</strong> {a.metodoPago}</p>
-                                            <p><strong>Notas:</strong> {a.notas || 'Sin notas.'}</p>
+                                            <div className="info-detalles">
+                                                <p><strong>Método:</strong> {a.metodoPago}</p>
+                                                <p><strong>Aporte al Centro:</strong> ${a.montoCentro} {a.es_becado ? "(Bonificado)" : "(25%)"}</p>
+                                                <p><strong>Notas:</strong> {a.notas || 'Sin notas.'}</p>
+                                            </div>
                                             <div className="acciones-container">
                                                 <Button onClick={() => navigate(`/editar/${a.id}`)} variant="secondary">Editar</Button>
                                                 <Button onClick={() => handleEliminar(a.id)} variant="danger">Eliminar</Button>

@@ -52,6 +52,41 @@
     border-bottom-right-radius: 8px; 
 }
 
+
+/* Color de fondo para la fila de becados */
+.fila-becada {
+    background-color: #f0fdf4 !important; /* Un verde muy sutil */
+    border-left: 4px solid #22c55e; /* Una barrita verde al costado para identificarlo */
+}
+
+/* Badge pequeño al lado del nombre */
+
+.badge-beca-tabla {
+    background-color: #22c55e; /* El verde de tu imagen */
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    margin-left: 10px;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.fila-becada {
+    background-color: #f0fdf4 !important; /* Un verde muy, muy clarito */
+}
+
+/* Ajuste para que los detalles se vean bien */
+.info-detalles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+
 /* Botón de Detalles */
 .btn-detalle {
     background-color: #f06292;

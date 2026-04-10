@@ -12,19 +12,25 @@ export default function EditarAtencion() {
     fecha: '',
     metodoPago: '',
     montoPaciente: 0,
-    montoCentro: 0
+    montoCentro: 0,
+    es_becado: false // Agregamos este campo
   });
   const [loading, setLoading] = useState(true);
 
-  // Recalcula porcentajes cuando montoTotal cambia
+  // Recalcula porcentajes cuando montoTotal cambia, PERO chequeando si es becado
   useEffect(() => {
     const total = parseFloat(formData.montoTotal) || 0;
+    
+    // Si es becado, el centro es 0 y el profesional se lleva el 100%
+    const centro = formData.es_becado ? 0 : (total * 0.25);
+    const profesional = formData.es_becado ? total : (total * 0.75);
+
     setFormData(prev => ({
       ...prev,
-      montoCentro: (total * 0.25).toFixed(2),
-      montoPaciente: (total * 0.75).toFixed(2)
+      montoCentro: centro.toFixed(2),
+      montoPaciente: profesional.toFixed(2)
     }));
-  }, [formData.montoTotal]);
+  }, [formData.montoTotal, formData.es_becado]); // Ahora también depende de es_becado
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -52,7 +58,8 @@ export default function EditarAtencion() {
         montoCentro: parseFloat(formData.montoCentro),
         notas: formData.notas,
         fecha: formData.fecha,
-        metodoPago: formData.metodoPago
+        metodoPago: formData.metodoPago,
+        es_becado: formData.es_becado // Guardamos el estado
       })
       .eq('id', id);
 
@@ -68,7 +75,7 @@ export default function EditarAtencion() {
 
   return (
     <form onSubmit={handleUpdate} className="atencion-form">
-      <h3>Editar Atención {/*#{id}*/} </h3>
+      <h3>Editar Atención</h3>
       
       <label>Fecha:</label>
       <input type="date" value={formData.fecha} onChange={(e) => setFormData({...formData, fecha: e.target.value})} />
@@ -76,10 +83,22 @@ export default function EditarAtencion() {
       <label>Monto Total:</label>
       <input type="number" value={formData.montoTotal} onChange={(e) => setFormData({...formData, montoTotal: e.target.value})} />
 
-      <label>Centro (25%):</label>
+      {/* Checkbox para corregir si es becado o no */}
+      <div style={{ margin: '15px 0', padding: '10px', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #c6f6d5' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', color: '#276749', fontWeight: 'bold' }}>
+              <input 
+                  type="checkbox" 
+                  checked={formData.es_becado} 
+                  onChange={(e) => setFormData({...formData, es_becado: e.target.checked})} 
+              />
+              ¿Paciente Becado? (Centro cobra $0)
+          </label>
+      </div>
+
+      <label>Centro ({formData.es_becado ? '0%' : '25%'}):</label>
       <input type="number" value={formData.montoCentro} disabled />
 
-      <label>Paciente (75%):</label>
+      <label>Tus Honorarios ({formData.es_becado ? '100%' : '75%'}):</label>
       <input type="number" value={formData.montoPaciente} disabled />
 
       <label>Método de Pago:</label>
@@ -93,8 +112,10 @@ export default function EditarAtencion() {
       <label>Notas:</label>
       <textarea value={formData.notas} onChange={(e) => setFormData({...formData, notas: e.target.value})} />
 
-      <button type="submit">Guardar Cambios</button>
-      <button type="button" onClick={() => navigate('/')}>Cancelar</button>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button type="submit" style={{ flex: 1 }}>Guardar Cambios</button>
+        <button type="button" onClick={() => navigate('/')} style={{ flex: 1, background: '#6c757d' }}>Cancelar</button>
+      </div>
     </form>
   );
 }

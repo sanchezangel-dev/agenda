@@ -6,10 +6,9 @@ import Button from '../components/Button.jsx';
 
 export default function Pacientes() {
     const [listaPacientes, setListaPacientes] = useState([]);
-    const [filaAbierta, setFilaAbierta] = useState(null); // Para controlar el "Ver más"
+    const [filaAbierta, setFilaAbierta] = useState(null); 
     const navigate = useNavigate();
 
-    // Función para calcular edad basada en el campo 'nacimiento'
     const calcularEdad = (fechaNacimiento) => {
         if (!fechaNacimiento) return "N/A";
         const hoy = new Date();
@@ -52,14 +51,13 @@ export default function Pacientes() {
             </header>
 
             <main className="dashboard-content">
-
                 <Button
                     variant="primary"
-                    onClick={() => navigate(`/nuevo-paciente`)} style={{ marginBottom: '20px' }}
+                    onClick={() => navigate(`/nuevo-paciente`)} 
+                    style={{ marginBottom: '20px' }}
                 >
                     + Nuevo Paciente
                 </Button>
-
 
                 <table className="tabla-pacientes">
                     <thead>
@@ -73,46 +71,59 @@ export default function Pacientes() {
                     <tbody>
                         {listaPacientes.map((p) => (
                             <React.Fragment key={p.id}>
-                                <tr>
-                                    <td data-label="Nombre">{p.nombre}</td>
+                                {/* Agregamos la clase fila-becada si p.es_becado es true */}
+                                <tr className={p.es_becado ? "fila-becada" : ""}>
+                                    <td data-label="Nombre">
+                                        {p.nombre}
+                                        {/* Badge verde al lado del nombre en la lista principal */}
+                                        {p.es_becado && <span className="badge-beca-tabla">Becado</span>}
+                                    </td>
                                     <td data-label="Edad">{calcularEdad(p.nacimiento)} años</td>
                                     <td data-label="Celular">{p.celular}</td>
                                     <td data-label="Acciones">
-                                                <Button
-                                                    variant="primary"
-                                                    onClick={() => setFilaAbierta(filaAbierta === p.id ? null : p.id)}
-                                                >
-                                                    {filaAbierta === p.id ? 'Cerrar' : 'Ver más'}
-                                                </Button>
-
+                                        <Button
+                                            variant="primary"
+                                            onClick={() => setFilaAbierta(filaAbierta === p.id ? null : p.id)}
+                                        >
+                                            {filaAbierta === p.id ? 'Cerrar' : 'Ver más'}
+                                        </Button>
                                     </td>
                                 </tr>
-                                {/* Fila extra que aparece al cliquear "Ver más" */}
+                                
                                 {filaAbierta === p.id && (
-    <tr className="fila-acciones-extra">
-        <td colSpan="4">
-            <div className="extra-info-container">
-                <span><strong>DNI:</strong> {p.dni}</span>
-                <span><strong>Emergencia:</strong> {p.emergencia}</span>
-                
-                <div className="extra-buttons">
-                    <Button
-                        variant="primary"
-                        onClick={() => navigate(`/editarpaciente/${p.id}`)}
-                    >
-                        Editar
-                    </Button>
-                    <Button
-                        variant="danger"
-                        onClick={() => eliminarPaciente(p.id)}
-                    >
-                        Eliminar
-                    </Button>
-                </div>
-            </div>
-        </td>
-    </tr>
-)}
+                                    <tr className="fila-acciones-extra">
+                                        <td colSpan="4">
+                                            <div className="extra-info-container">
+                                                <div className="info-grid">
+                                                    <span><strong>DNI:</strong> {p.dni || 'Sin datos'}</span>
+                                                    <span><strong>Emergencia:</strong> {p.emergencia || 'Sin datos'}</span>
+                                                    
+                                                    <span className="becado-status">
+                                                        <strong>Condición:</strong> 
+                                                        <span className={p.es_becado ? "badge-becado" : "badge-normal"}>
+                                                            {p.es_becado ? "Becado (0% Centro)" : "Normal (25% Centro)"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                
+                                                <div className="extra-buttons">
+                                                    <Button
+                                                        variant="primary"
+                                                        onClick={() => navigate(`/editarpaciente/${p.id}`)}
+                                                    >
+                                                        Editar
+                                                    </Button>
+                                                    <Button
+                                                        variant="danger"
+                                                        onClick={() => eliminarPaciente(p.id)}
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
                             </React.Fragment>
                         ))}
                     </tbody>
