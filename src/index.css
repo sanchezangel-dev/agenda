@@ -12,3 +12,36 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
+
+/* Convenio: Azul profesional */
+.badge-convenio {
+    background-color: #3b82f6; 
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Reintegro: Violeta/Púrpura */
+.badge-reintegro {
+    background-color: #8b5cf6; 
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Mantenemos el verde de la Beca */
+.badge-beca-tabla {
+    background-color: #22c55e;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}

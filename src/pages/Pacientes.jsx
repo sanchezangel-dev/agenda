@@ -3,6 +3,8 @@ import { supabase } from '../api/supabaseClient.js';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Pacientes.css';
 import Button from '../components/Button.jsx';
+// 1. Importamos el componente de los badges
+import BadgePaciente from '../components/BadgePaciente.jsx';
 
 export default function Pacientes() {
     const [listaPacientes, setListaPacientes] = useState([]);
@@ -71,12 +73,11 @@ export default function Pacientes() {
                     <tbody>
                         {listaPacientes.map((p) => (
                             <React.Fragment key={p.id}>
-                                {/* Agregamos la clase fila-becada si p.es_becado es true */}
                                 <tr className={p.es_becado ? "fila-becada" : ""}>
                                     <td data-label="Nombre">
                                         {p.nombre}
-                                        {/* Badge verde al lado del nombre en la lista principal */}
-                                        {p.es_becado && <span className="badge-beca-tabla">Becado</span>}
+                                        {/* 2. Reemplazamos la lógica vieja por el componente */}
+                                        <BadgePaciente paciente={p} />
                                     </td>
                                     <td data-label="Edad">{calcularEdad(p.nacimiento)} años</td>
                                     <td data-label="Celular">{p.celular}</td>
@@ -98,11 +99,11 @@ export default function Pacientes() {
                                                     <span><strong>DNI:</strong> {p.dni || 'Sin datos'}</span>
                                                     <span><strong>Emergencia:</strong> {p.emergencia || 'Sin datos'}</span>
                                                     
+                                                    {/* También lo podemos usar aquí adentro si quisieras, 
+                                                        pero con verlo en la tabla principal ya suele alcanzar */}
                                                     <span className="becado-status">
                                                         <strong>Condición:</strong> 
-                                                        <span className={p.es_becado ? "badge-becado" : "badge-normal"}>
-                                                            {p.es_becado ? "Becado (0% Centro)" : "Normal (25% Centro)"}
-                                                        </span>
+                                                        <BadgePaciente paciente={p} />
                                                     </span>
                                                 </div>
                                                 

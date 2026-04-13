@@ -14,7 +14,8 @@ export default function EditarPaciente() {
         nacimiento: '',
         celular: '',
         emergencia: '',
-        es_becado: false // Agregamos el campo al estado inicial
+        es_becado: false,
+        etiqueta: '' // Nuevo campo para Convenio/Reintegro
     });
 
     useEffect(() => {
@@ -38,7 +39,6 @@ export default function EditarPaciente() {
     }, [id, navigate]);
 
     const handleChange = (e) => {
-        // Manejamos el checkbox de forma distinta a los inputs de texto
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         
         setPaciente({
@@ -57,7 +57,8 @@ export default function EditarPaciente() {
                 nacimiento: paciente.nacimiento,
                 celular: paciente.celular,
                 emergencia: paciente.emergencia,
-                es_becado: paciente.es_becado // Enviamos el nuevo estado a Supabase
+                es_becado: paciente.es_becado,
+                etiqueta: paciente.etiqueta // Guardamos la etiqueta en Supabase
             })
             .eq('id', id);
 
@@ -128,17 +129,33 @@ export default function EditarPaciente() {
                     </div>
                 </div>
 
-                {/* Nuevo campo: Checkbox de Becado */}
-                <div className="input-group checkbox-container-edit">
-                    <label className="checkbox-label">
-                        <input 
-                            type="checkbox" 
-                            name="es_becado"
-                            checked={paciente.es_becado} 
-                            onChange={handleChange} 
-                        />
-                        <span>Paciente Becado (0% al Centro)</span>
-                    </label>
+                {/* --- SECCIÓN DE CONDICIONES --- */}
+                <div className="admin-section">
+                    <div className="input-group">
+                        <label>Condición Administrativa</label>
+                        <select 
+                            name="etiqueta" 
+                            value={paciente.etiqueta || ""} 
+                            onChange={handleChange}
+                            className="form-select-admin"
+                        >
+                            <option value="">Ninguna</option>
+                            <option value="CONVENIO">Convenio</option>
+                            <option value="REINTEGRO">Reintegro</option>
+                        </select>
+                    </div>
+
+                    <div className="input-group checkbox-container-edit">
+                        <label className="checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                name="es_becado"
+                                checked={paciente.es_becado} 
+                                onChange={handleChange} 
+                            />
+                            <span>Paciente Becado (0% al Centro)</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="form-actions">

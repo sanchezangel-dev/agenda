@@ -3,6 +3,8 @@ import { supabase } from '../api/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import '../styles/HistorialAtenciones.css';
 import Button from '../components/Button';
+// 1. Importamos el componente
+import BadgePaciente from '../components/BadgePaciente.jsx';
 
 export default function HistorialAtenciones() {
     const [atenciones, setAtenciones] = useState([]);
@@ -16,7 +18,11 @@ export default function HistorialAtenciones() {
     const fetchAtenciones = async () => {
         const { data } = await supabase
             .from('atenciones')
-            .select('id, fecha, montoTotal, montoPaciente, montoCentro, metodoPago, notas, es_becado, pacientes(nombre)') // Traemos es_becado y montoCentro
+            // 2. IMPORTANTE: Agregamos etiqueta y es_becado dentro de pacientes(...)
+            .select(`
+                id, fecha, montoTotal, montoPaciente, montoCentro, metodoPago, notas, es_becado, 
+                pacientes(nombre, etiqueta, es_becado)
+            `) 
             .order('fecha', { ascending: false });
 
         setAtenciones(data || []);
@@ -56,12 +62,12 @@ export default function HistorialAtenciones() {
                 <tbody>
                     {atenciones.map((a) => (
                         <React.Fragment key={a.id}>
-                            {/* Aplicamos la clase condicional a la fila */}
                             <tr className={a.es_becado ? "fila-becada" : ""}>
                                 <td data-label="Fecha">{formatearFecha(a.fecha)}</td>
                                 <td data-label="Paciente">
                                     {a.pacientes?.nombre} 
-                                    {a.es_becado && <span className="badge-beca-tabla">Becado</span>}
+                                    {/* 3. Usamos el componente pasando el objeto del paciente */}
+                                    <BadgePaciente paciente={a.pacientes} />
                                 </td>
                                 <td data-label="Total">${a.montoTotal}</td>
                                 <td data-label="Honorarios"><strong>${a.montoPaciente}</strong></td>
@@ -77,7 +83,10 @@ export default function HistorialAtenciones() {
                                         <div className="notas-container">
                                             <div className="info-detalles">
                                                 <p><strong>Método:</strong> {a.metodoPago}</p>
-                                                <p><strong>Aporte al Centro:</strong> ${a.montoCentro} {a.es_becado ? "(Bonificado)" : "(25%)"}</p>
+                                                <p>
+                                                    <strong>Aporte al Centro:</strong> ${a.montoCentro} 
+                                                    {a.es_becado ? " (Bonificado)" : " (25%)"}
+                                                </p>
                                                 <p><strong>Notas:</strong> {a.notas || 'Sin notas.'}</p>
                                             </div>
                                             <div className="acciones-container">
