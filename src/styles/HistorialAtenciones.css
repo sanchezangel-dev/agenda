@@ -221,3 +221,48 @@
         width: 100%;
     }
 }
+
+.header-historial-filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.controles-filtros {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.select-filtro {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+.btn-ver-todo {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #3b82f6;
+    background: transparent;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-ver-todo.active {
+    background: #3b82f6;
+    color: white;
+}
+
+.sin-datos {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+}

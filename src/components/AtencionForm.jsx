@@ -12,26 +12,29 @@ export default function AtencionForm() {
   const [notas, setNotas] = useState('');
   const [metodoPago, setMetodoPago] = useState('');
   
-  // Estado para saber si el paciente seleccionado es becado
+  // NUEVOS ESTADOS: porcentaje y si está bloqueado
+  const [porcentaje, setPorcentaje] = useState(25);
+  const [porcentajeHabilitado, setPorcentajeHabilitado] = useState(false);
   const [esBecado, setEsBecado] = useState(false);
 
   useEffect(() => {
     const fetchPacientes = async () => {
-      // Traemos nombre e ID para el select, y es_becado para la lógica
       const { data } = await supabase.from('pacientes').select('id, nombre, es_becado');
       setPacientes(data || []);
     };
     fetchPacientes();
   }, []);
 
-  // Manejamos el cambio de paciente y detectamos la condición de beca
   const handlePacienteChange = (id) => {
     setPacienteId(id);
     const seleccionado = pacientes.find(p => p.id === parseInt(id));
     if (seleccionado) {
       setEsBecado(seleccionado.es_becado);
+      // Si es becado, forzamos el porcentaje a 0, sino volvemos al 25
+      setPorcentaje(seleccionado.es_becado ? 0 : 25);
     } else {
       setEsBecado(false);
+      setPorcentaje(25);
     }
   };
 
@@ -39,10 +42,11 @@ export default function AtencionForm() {
     e.preventDefault();
     
     const total = parseFloat(montoTotal) || 0;
+    const porc = parseFloat(porcentaje) || 0;
     
-    // Lógica de porcentajes: 0% si es becado, 25% si es normal
-    const montoCentro = esBecado ? 0 : total * 0.25;
-    const montoPaciente = esBecado ? total : total * 0.75;
+    // CÁLCULOS DINÁMICOS basados en el input de porcentaje
+    const montoCentro = total * (porc / 100);
+    const montoPaciente = total - montoCentro;
 
     const { error } = await supabase.from('atenciones').insert([{
       paciente_id: parseInt(pacienteId), 
@@ -52,7 +56,8 @@ export default function AtencionForm() {
       montoPaciente: montoPaciente,
       montoCentro: montoCentro,
       metodoPago: metodoPago,
-      es_becado: esBecado // Guardamos el estado en la fila de atención
+      es_becado: esBecado,
+      comision_porcentaje: porc // Guardamos el nuevo campo
     }]);
     
     if (error) {
@@ -64,10 +69,9 @@ export default function AtencionForm() {
     }
   };
 
-  // Helper para evitar el error de toFixed si el monto está vacío
   const calcularMonto = (valor) => {
     const num = Number(valor) || 0;
-    return num.toFixed(2);
+    return num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
   return (
@@ -98,6 +102,36 @@ export default function AtencionForm() {
         required 
       />
 
+      {/* INPUT DE PORCENTAJE: Se habilita al hacer click */}
+<div className="campo-porcentaje" style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '0.8rem', color: '#666', display: 'block', marginBottom: '4px' }}>
+          % Comisión Centro:
+        </label>
+        <input 
+          type="number"
+          value={porcentaje}
+          onChange={(e) => setPorcentaje(e.target.value)}
+          // Cambiamos disabled por readOnly para que detecte el click
+          readOnly={!porcentajeHabilitado}
+          onFocus={() => setPorcentajeHabilitado(true)}
+          onClick={() => setPorcentajeHabilitado(true)}
+          style={{ 
+            width: '100%', 
+            padding: '8px', 
+            backgroundColor: porcentajeHabilitado ? '#fff' : '#f8f9fa',
+            cursor: porcentajeHabilitado ? 'text' : 'pointer',
+            border: porcentajeHabilitado ? '1px solid #007bff' : '1px solid #ccc',
+            borderRadius: '4px',
+            outline: 'none'
+          }}
+          title="Click para modificar el porcentaje"
+        />
+        {!porcentajeHabilitado && (
+          <small style={{ fontSize: '0.7rem', color: '#007bff', cursor: 'pointer' }} onClick={() => setPorcentajeHabilitado(true)}>
+            ℹ️ Clic para editar porcentaje
+          </small>
+        )}
+      </div>
       <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)} required>
         <option value="">Método de pago</option>
         <option value="Efectivo">Efectivo</option>
@@ -112,20 +146,17 @@ export default function AtencionForm() {
         onChange={(e) => setNotas(e.target.value)} 
       />
 
-      {/* Resumen dinámico con protección de errores */}
+      {/* Resumen dinámico actualizado con el nuevo porcentaje */}
       <div className={`resumen-calculo ${esBecado ? 'resumen-becado' : ''}`}>
-        {esBecado ? (
-          <p style={{ color: '#22c55e', fontWeight: 'bold' }}>
-            ✨ Paciente Becado: El profesional recibe el 100%
-          </p>
-        ) : (
-          <p>Centro (25%): <strong>${ calcularMonto(Number(montoTotal) * 0.25) }</strong></p>
-        )}
+        <p>
+          Centro ({porcentaje}%): 
+          <strong> ${ calcularMonto(Number(montoTotal) * (Number(porcentaje) / 100)) }</strong>
+        </p>
         
         <p>
           Tus Honorarios: 
           <strong>
-            ${ esBecado ? calcularMonto(montoTotal) : calcularMonto(Number(montoTotal) * 0.75) }
+            ${ calcularMonto(Number(montoTotal) - (Number(montoTotal) * (Number(porcentaje) / 100))) }
           </strong>
         </p>
       </div>
