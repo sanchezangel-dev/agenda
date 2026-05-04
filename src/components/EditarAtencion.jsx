@@ -14,7 +14,7 @@ export default function EditarAtencion() {
     montoPaciente: 0,
     montoCentro: 0,
     es_becado: false,
-    comision_porcentaje: 25 // Nuevo campo
+    comision_porcentaje: 30 // Nuevo campo
   });
   
   const [loading, setLoading] = useState(true);
@@ -45,10 +45,10 @@ export default function EditarAtencion() {
         .single();
 
       if (data) {
-        // Aseguramos que si comision_porcentaje es null, use 25 por defecto
+        // Aseguramos que si comision_porcentaje es null, use 30 por defecto
         setFormData({
           ...data,
-          comision_porcentaje: data.comision_porcentaje ?? 25
+          comision_porcentaje: data.comision_porcentaje ?? 30
         });
         setLoading(false);
       }
@@ -103,7 +103,7 @@ export default function EditarAtencion() {
                       setFormData({
                           ...formData, 
                           es_becado: becado,
-                          comision_porcentaje: becado ? 0 : 25 // Ajuste automático
+                          comision_porcentaje: becado ? 0 : 30 // Ajuste automático
                       });
                   }} 
               />

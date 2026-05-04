@@ -13,7 +13,7 @@ export default function AtencionForm() {
   const [metodoPago, setMetodoPago] = useState('');
   
   // NUEVOS ESTADOS: porcentaje y si está bloqueado
-  const [porcentaje, setPorcentaje] = useState(25);
+  const [porcentaje, setPorcentaje] = useState(30);
   const [porcentajeHabilitado, setPorcentajeHabilitado] = useState(false);
   const [esBecado, setEsBecado] = useState(false);
 
@@ -30,11 +30,11 @@ export default function AtencionForm() {
     const seleccionado = pacientes.find(p => p.id === parseInt(id));
     if (seleccionado) {
       setEsBecado(seleccionado.es_becado);
-      // Si es becado, forzamos el porcentaje a 0, sino volvemos al 25
-      setPorcentaje(seleccionado.es_becado ? 0 : 25);
+      // Si es becado, forzamos el porcentaje a 0, sino volvemos al 30
+      setPorcentaje(seleccionado.es_becado ? 0 : 30);
     } else {
       setEsBecado(false);
-      setPorcentaje(25);
+      setPorcentaje(30);
     }
   };
 
