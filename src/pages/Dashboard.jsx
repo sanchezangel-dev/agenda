@@ -42,7 +42,7 @@ export default function Dashboard() {
                 // Aseguramos que sume como números (Number) para evitar errores de la DB
                 const totalProfesional = data.reduce((acc, curr) => acc + (Number(curr.montoPaciente) || 0), 0);
                 const totalCentro = data.reduce((acc, curr) => acc + (Number(curr.montoCentro) || 0), 0);
-                
+
                 setTotales({ profesional: totalProfesional, centro: totalCentro });
             }
         } catch (err) {
@@ -82,6 +82,14 @@ export default function Dashboard() {
                     </Button>
                     <Button variant="payment" onClick={() => navigate('/Pagos')}>
                         Pagos
+                    </Button>
+                    <Button
+                        variant="payment"
+                        size="medium"
+                        onClick={() => navigate('/resumen-financiero')}
+                        className="btn-modulo-financiero"
+                    >
+                        📊 Ver Resumen Financiero
                     </Button>
                 </div>
 

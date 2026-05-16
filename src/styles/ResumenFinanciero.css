@@ -1,20 +1,277 @@
-.resumen-container {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 25px;
+/* ==========================================================================
+   Contenedor Principal y Layout Superior
+   ========================================================================== */
+/* ==========================================================================
+   Contenedor Principal y Layout Superior
+   ========================================================================== */
+.resumen-financiero-container {
+    grid-column: 1 / -1; /* Rompe el CSS Grid del padre ocupando todas las columnas */
+    width: 100%;        /* Rompe el Flexbox estirándose al máximo */
+    display: flex;      /* Controla su propio contenido interno */
+    flex-direction: column; /* OBLIGA a que la tabla se vaya abajo del bloque superior */
+    margin-top: 30px;    
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+    clear: both;        /* Asegura que no flote nada raro de estructuras externas */
 }
 
-.card {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+/* Barra superior que organiza el botón Volver y el título */
+.financiero-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegura que la barra del título ocupe todo el ancho horizontal */
+    margin-bottom: 25px;
+}
+
+/* Encabezado */
+.financiero-header {
+    border-left: 5px solid #d63384; /* Rosa Centro Raíces */
+    padding-left: 18px;
+    margin-bottom: 0; 
+}
+
+.financiero-header h2 {
+  color: #2c3e50;
+  margin: 0 0 6px 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.financiero-header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.cargando-financiero {
   text-align: center;
+  padding: 50px;
+  color: #7f8c8d;
+  font-size: 1.1rem;
 }
 
-.monto {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #e91e63; /* Tu color rosa */
+/* ==========================================================================
+   Tabla Principal (Escritorio)
+   ========================================================================== */
+.tabla-financiera-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #eef2f5;
+  border-radius: 10px;
+}
+
+.tabla-financiera {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tabla-financiera th {
+  background-color: #f8f9fa;
+  color: #4a5568;
+  padding: 16px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.tabla-financiera td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 0.95rem;
+  color: #2d3748;
+  vertical-align: middle;
+}
+
+.mes-en-curso {
+  background-color: #fff9fb;
+}
+
+.col-periodo {
+  color: #1a202c;
+}
+
+/* Badges */
+.badge-estado {
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.estado-curso {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+}
+
+.estado-pendiente {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+/* Importes */
+.monto-bruto {
+  color: #718096;
+}
+
+.monto-profesional {
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.monto-centro {
+  color: #c2185b;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Desplegable Detalle Pacientes
+   ========================================================================== */
+.fila-desplegable-detalle {
+  background-color: #fcfcfd;
+}
+
+.contenedor-desglose-pacientes {
+  padding: 24px;
+  background: #ffffff;
+  margin: 15px 20px;
+  border-radius: 10px;
+  border: 1px dashed #cbd5e0;
+}
+
+.contenedor-desglose-pacientes h4 {
+  margin: 0 0 16px 0;
+  color: #4a5568;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.tabla-desglose-interna {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-desglose-interna th {
+  background-color: #fdf4f7;
+  color: #6d213c;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f3d1dc;
+}
+
+.tabla-desglose-interna td {
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f8e9ee;
+}
+
+.txt-verde {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.txt-rosa {
+  color: #c2185b;
+  font-weight: 600;
+}
+
+.tabla-vacia {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+  padding: 40px;
+}
+
+/* ==========================================================================
+   Responsive (Celulares)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .resumen-financiero-container {
+    margin: 10px;
+    padding: 16px;
+  }
+
+  .financiero-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .financiero-top-bar button {
+        align-self: flex-start; /* El botón se acomoda abajo en celulares */
+    }
+
+  .tabla-financiera thead {
+    display: none;
+  }
+
+  .tabla-financiera tr.fila-mes-principal {
+    display: block;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #ffffff;
+  }
+
+  .tabla-financiera td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8px;
+    border-bottom: 1px dashed #edf2f7;
+    text-align: right;
+    font-size: 0.92rem;
+  }
+
+  .tabla-financiera td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    padding-top: 15px;
+    gap: 10px;
+  }
+
+  .tabla-financiera td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #718096;
+    text-align: left;
+    font-size: 0.85rem;
+  }
+
+  .contenedor-desglose-pacientes {
+    padding: 16px 10px;
+    margin: 5px 0;
+  }
+
+  .tabla-desglose-interna thead {
+    display: none;
+  }
+
+  .tabla-desglose-interna tr {
+    display: block;
+    border-bottom: 2px solid #f8e9ee;
+    padding: 10px 0;
+  }
+
+  .tabla-desglose-interna td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border: none;
+  }
+
+  .tabla-desglose-interna td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #718096;
+  }
 }

@@ -6,6 +6,7 @@ import PacienteForm from '../components/PacienteForm';
 import Pacientes from '../pages/Pacientes';
 import EditarPaciente from '../components/EditarPaciente';
 import Pagos from '../pages/Pagos';
+import ResumenFinanciero from '../components/ResumenFinanciero';
 
 
 export default function AppRoutes() {
@@ -18,7 +19,7 @@ export default function AppRoutes() {
       <Route path='/pacientes' element={<Pacientes />} />
       <Route path="/editarpaciente/:id" element={<EditarPaciente />} />
       <Route path='/pagos' element={<Pagos />} />
-
+      <Route path="/resumen-financiero" element={<ResumenFinanciero />} />
     </Routes>
   );
 }
