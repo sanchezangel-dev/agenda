@@ -1,9 +1,6 @@
 /* ==========================================================================
    Contenedor Principal y Layout Superior
    ========================================================================== */
-/* ==========================================================================
-   Contenedor Principal y Layout Superior
-   ========================================================================== */
 .resumen-financiero-container {
     grid-column: 1 / -1; /* Rompe el CSS Grid del padre ocupando todas las columnas */
     width: 100%;        /* Rompe el Flexbox estirándose al máximo */
